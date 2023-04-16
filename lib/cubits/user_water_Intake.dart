@@ -6,9 +6,9 @@ class UserWaterIntakeCubit extends Cubit<UserWaterIntakeState> {
   List<WaterSource> waterSources = [];
   UserWaterIntakeCubit() : super(UserWaterIntakeInitialState([]));
 
-  updateWaterIntake(WaterSource waterSource, double value) {
+  updateWaterIntake(WaterSource source, double value) {
     for (var i = 0; i < waterSources.length; i++) {
-      if (waterSources[i].id == waterSource.id) {
+      if (waterSources[i].id == source.id) {
         waterSources[i] = WaterSource(
             id: waterSources[i].id,
             description: waterSources[i].description,
@@ -19,14 +19,18 @@ class UserWaterIntakeCubit extends Cubit<UserWaterIntakeState> {
     emit(UserWaterIntakeUpdateState(waterSources));
   }
 
-  addWaterSourceToUser(WaterSource waterSource) {
-    waterSources.add(waterSource);
+  addWaterSourceToUser(WaterSource source) {
+    waterSources.add(source);
     emit(UserWaterIntakeUpdateState(waterSources));
   }
 
-  removeWaterSourceToUser(WaterSource waterSource) {
-    waterSources.remove(waterSource);
+  removeWaterSourceToUser(int sourceId) {
+    waterSources.removeWhere((item) => item.id == sourceId);
     emit(UserWaterIntakeUpdateState(waterSources));
+  }
+
+  List<WaterSource> getUserWaterSources() {
+    return waterSources;
   }
 }
 

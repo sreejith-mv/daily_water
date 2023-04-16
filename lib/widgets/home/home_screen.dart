@@ -1,3 +1,4 @@
+import 'package:daily_water/cubits/user_water_Intake.dart';
 import 'package:daily_water/cubits/water_intake.dart';
 import 'package:daily_water/widgets/daily_water_drawer.dart';
 import 'package:daily_water/widgets/home/water_sources_list.dart';
@@ -10,6 +11,14 @@ import '../../models/settings.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  double generatePercentage(double intake, double totalIntake) {
+    if (intake > totalIntake) {
+      return 1;
+    } else {
+      return (intake / totalIntake);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +55,10 @@ class HomeScreen extends StatelessWidget {
                           animation: true,
                           animationDuration: 1200,
                           lineWidth: 20.0,
-                          percent: (waterIntake / userSetting.totalIntake),
+                          percent: generatePercentage(
+                              waterIntake, userSetting.totalIntake),
                           center: Text(
-                            waterIntake.toString(),
+                            waterIntake.toStringAsFixed(2),
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 30.0,

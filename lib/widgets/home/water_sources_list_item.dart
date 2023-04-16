@@ -1,5 +1,7 @@
+import 'package:daily_water/cubits/user_water_Intake.dart';
 import 'package:daily_water/models/water_source.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WaterSourceListItem extends StatefulWidget {
   final WaterSource waterSource;
@@ -11,11 +13,11 @@ class WaterSourceListItem extends StatefulWidget {
 
 class _WaterSourceListItemState extends State<WaterSourceListItem> {
   _WaterSourceListItemState();
+  bool isEnabled = false;
   @override
   Widget build(BuildContext context) {
     final TextEditingController textFieldController =
         TextEditingController(text: widget.waterSource.intakeValue.toString());
-    bool? isEnabled;
     return Column(
       children: [
         ListTile(
@@ -25,17 +27,31 @@ class _WaterSourceListItemState extends State<WaterSourceListItem> {
             value: isEnabled,
             onChanged: (value) {
               setState(() {
-                isEnabled = value;
+                isEnabled = value!;
+                if (isEnabled) {
+                  context
+                      .read<UserWaterIntakeCubit>()
+                      .addWaterSourceToUser(widget.waterSource);
+                } else {
+                  context
+                      .read<UserWaterIntakeCubit>()
+                      .removeWaterSourceToUser(widget.waterSource.id);
+                }
               });
             },
           ),
           trailing: SizedBox(
             width: 100.0,
             height: 60,
-            child: isEnabled ?? false
+            child: isEnabled
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      onChanged: (value) {
+                        context.read<UserWaterIntakeCubit>().updateWaterIntake(
+                            widget.waterSource,
+                            double.parse(textFieldController.text.trim()));
+                      },
                       controller: textFieldController,
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.number,
@@ -54,39 +70,3 @@ class _WaterSourceListItemState extends State<WaterSourceListItem> {
     );
   }
 }
-
-
-// Row(
-//           children: [
-//             Checkbox(
-//               value: enabled,
-//               onChanged: (value) {
-//                 print(value);
-//                 // setState(() {
-//                 //   enabled = value!;
-//                 // });
-//               },
-//             ),
-//             Expanded(child: Text(widget.waterSource.title)),
-//             SizedBox(
-//               width: 100.0,
-//               height: 60,
-//               child: enabled
-//                   ? Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: TextField(
-//                         controller: textFieldController,
-//                         textAlign: TextAlign.center,
-//                         keyboardType: TextInputType.number,
-//                         decoration: const InputDecoration(
-//                           hintText: 'Value',
-//                           border: OutlineInputBorder(
-//                               borderRadius:
-//                                   BorderRadius.all(Radius.circular(5))),
-//                         ),
-//                       ),
-//                     )
-//                   : Container(),
-//             ),
-//           ],
-//         ),

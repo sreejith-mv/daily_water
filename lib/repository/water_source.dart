@@ -22,8 +22,9 @@ class WaterSourceRepository {
     )
   ];
 
-  void addWaterSource(WaterSource waterSource) {
+  List<WaterSource> addWaterSource(WaterSource waterSource) {
     waterSources.add(waterSource);
+    return waterSources;
   }
 
   List<WaterSource> getWaterSources() {

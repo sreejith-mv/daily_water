@@ -1,4 +1,5 @@
 import 'package:daily_water/cubits/user_water_Intake.dart';
+import 'package:daily_water/cubits/water_intake.dart';
 import 'package:daily_water/models/water_source.dart';
 import 'package:daily_water/widgets/home/water_sources_list_item.dart';
 import 'package:flutter/material.dart';
@@ -31,15 +32,15 @@ class WaterSourcesList extends StatelessWidget {
               },
             ),
           ),
-          // BlocBuilder<UserWaterIntakeCubit, UserWaterIntakeState>(
-          //   builder: (context, state) {
-          //     return ElevatedButton(
-          //         onPressed: () {
-          //           context.read<UserWaterIntakeCubit>().updateIntakeValue([]);
-          //         },
-          //         child: const Text('Save'));
-          //   },
-          // )
+          ElevatedButton(
+              onPressed: () {
+                List<WaterSource> waterSources =
+                    context.read<UserWaterIntakeCubit>().getUserWaterSources();
+                context
+                    .read<WaterIntakeCubit>()
+                    .updateIntakeValue(waterSources);
+              },
+              child: const Text('Save'))
         ],
       );
     });
