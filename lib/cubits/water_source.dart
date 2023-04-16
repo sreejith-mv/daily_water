@@ -5,17 +5,17 @@ import '../models/water_source.dart';
 class WaterSourceCubit extends Cubit<WaterSourceState> {
   final List<WaterSource> waterSources = [
     WaterSource(
-        id: 1,
-        description: 'Test descriptions',
-        intakeValue: 10.2,
-        title: 'Tea',
-        value: true),
+      id: 1,
+      description: 'Test descriptions',
+      intakeValue: 10.2,
+      title: 'Tea',
+    ),
     WaterSource(
-        id: 1,
-        description: 'Test descriptions 2',
-        intakeValue: 10.2,
-        title: 'Bottle',
-        value: false)
+      id: 1,
+      description: 'Test descriptions 2',
+      intakeValue: 10.2,
+      title: 'Bottle',
+    )
   ];
 
   WaterSourceCubit() : super(WaterSourceInitialState([]));
